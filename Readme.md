@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Olga Shapovalova](https://up.htmlacademy.ru/javascript/13/user/429017).
-* Наставник: `Неизвестно`.
+* Наставник: `Роман Мисюрин`.
 
 ---
 
