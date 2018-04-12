@@ -63,7 +63,8 @@ for(i = 0; i < MAX_RENT_OBJECTS; i++){
   var randomRentObject = roomsForRent[Math.floor(Math.random() * roomsForRent.length)];
       randomRooms.push(randomRentObject);
 
-for(i = 0; i < randomRooms; i++)
+for(i = 0; i < randomRooms; i++){
+      var rentObject = {}
 
       rentObject.offer.title = getRandomElement[
                           "Большая уютная квартира",
@@ -81,4 +82,4 @@ for(i = 0; i < randomRooms; i++)
 }
 
 
-// вставляем данные в шаблон, обращаясь к элементу массива roomsForRent[i]
+// вставляем данные в шаблон, обращаясь к элементу массива randomRooms[i]
