@@ -28,10 +28,7 @@ var PHOTOS = [
                "http://o0.github.io/assets/images/tokyo/hotel3.jpg"
               ];
 
-var roomsForRent = []; // пустой массив для сгенерированных объектов
-
-
-// функция поиска случайного числа в диапазоне min max для подстановки фейковых данных
+var roomsForRent = [];
 
 function getRandomNumber(min, max) {
     var x = min + Math.random() * (max + 1 - min);
@@ -39,15 +36,15 @@ function getRandomNumber(min, max) {
     return x;
   }
 
-function getRandomElement(arr) { // как представить абстрактно константы массивов, чтобы передавать их в функцию??
+function getRandomElement(arr) {
     var x = Math.floor(Math.random() * arr.length);
     return arr[x];
   }
 
-for(i=0; i<8; i++){ // цикл для генерации свойств объекта и его записи в массив roomsForRent
+for(i=0; i<8; i++){
     var rentObject = {};
 
-    rentObject.author = {"avatar": getRandomNumber(1, 8)};*/
+    rentObject.author = {"avatar": getRandomNumber(1, 8)};
 
     rentObject.offer = {"title": getRandomElement(HOUSE_TITLE),
                         "address": {"x": getRandomNumber(300, 900),
@@ -62,7 +59,7 @@ for(i=0; i<8; i++){ // цикл для генерации свойств объ�
                         "features": getRandomElement(FEATURES),
                         "description": '',
                         "photos": getRandomElement(PHOTOS)
-                        };*/
+                        };
 
     rentObject.location = {
                         "x": getRandomNumber(300, 900),
@@ -71,4 +68,40 @@ for(i=0; i<8; i++){ // цикл для генерации свойств объ�
 
      roomsForRent.push(rentObject);
 }
-// далее вставляем данные в шаблон, обращаясь к элементу массива randomRooms[i]
+
+/*var mapFaded = document.querySelector(".map--faded");
+mapFaded.classList.remove(".map--faded");*/
+
+// пишем функцию которая отрисует DOM пина и заполнит свойствами пин
+
+
+window.renderPin = (function () {
+  var templateElement = document.querySelector('map__pin');
+  var elementToClone = templateElement.content.querySelector('map__pin');
+
+  return function () {
+    var pinElement = elementToClone.cloneNode(true); // нарисовали новый пин
+
+    pinElement.style.top = rentObject.location.y + 70 + 'px';
+    pinElement.style.left = rentObject.location.x - (50 / 2) + 'px';
+
+    var avatar = pinElement.querySelector('img');
+    avatar.setAttribute('src', rentObject.author.avatar);
+    avatar.setAttribute('alt', rentObject.offer.title);
+
+    return pinElement;
+    }
+  };)
+
+var mapPins = document.querySelector('map__pins');
+mapPins.appendChild(pinElement);
+
+// надо ли генерировать 8 пинов циклом?
+
+window.showCard = (function () {})
+
+
+// создать DOM темплейта и вставить его перед .map__filters-container
+//  заполнить данными
+
+// отрисовать offer.title в .popup__title и тд
