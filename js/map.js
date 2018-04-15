@@ -45,31 +45,30 @@ function getRandomElement(arr) { // как представить абстрак
   }
 
 for(i=0; i<8; i++){ // цикл для генерации свойств объекта и его записи в массив roomsForRent
-    var rentObject = {
-                      "author": {
-                        "avatar": getRandomNumber(1, 8)
-                      },
+    var rentObject = {};
 
-                      "offer": {
-                        "title": getRandomElement(HOUSE_TITLE),
-                        "address": '', //например, "600, 350" // берем размер карты за диапазон?
-                        "price": getRandomNumber(1000, 1 000 000),
+    rentObject.author = {"avatar": getRandomNumber(1, 8)};*/
+
+    rentObject.offer = {"title": getRandomElement(HOUSE_TITLE),
+                        "address": {"x": getRandomNumber(300, 900),
+                                  "y": getRandomNumber(150, 500)
+                                  },
+                        "price": getRandomNumber(1000, 1000000),
                         "type": getRandomElement (HOUSE_TYPE),
                         "rooms": getRandomNumber(1, 5),
-                        "guests": getRandomNumber(0, 3), // есть вариант "не гость", как его вписать в диапазон, типа как null? indefined?
+                        "guests": getRandomNumber(0, 3),
                         "checkin": getRandomElement(TIME_CHECKIN),
                         "checkout": getRandomElement(TIME_CHECKOUT),
                         "features": getRandomElement(FEATURES),
-                        "description": '',// тут надо тоже как то обозначить, что это будет рандомное количество знаков текста? длина текста будет длиной массива?
+                        "description": '',
                         "photos": getRandomElement(PHOTOS)
-                      },
+                        };*/
 
-                      "location": {
+    rentObject.location = {
                         "x": getRandomNumber(300, 900),
                         "y": getRandomNumber(150, 500)
-                      }
-                    }
-     push.array(rentObject);
-}
+                      };
 
+     roomsForRent.push(rentObject);
+}
 // далее вставляем данные в шаблон, обращаясь к элементу массива randomRooms[i]
