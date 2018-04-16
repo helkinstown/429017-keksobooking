@@ -69,18 +69,18 @@ for(i=0; i<8; i++){
      roomsForRent.push(rentObject);
 }
 
-/*var mapFaded = document.querySelector(".map--faded");
-mapFaded.classList.remove(".map--faded");*/
+/*var mapFaded = document.getElementsByTagName("section"); // находим блок
+mapFaded.classList.remove(".map--faded"); // удаляем у него класс*/
 
-// пишем функцию которая отрисует DOM пина и заполнит свойствами пин
+// как проверить что работает? только после обработчика событий?
 
 
 window.renderPin = (function () {
   var templateElement = document.querySelector('map__pin');
-  var elementToClone = templateElement.content.querySelector('map__pin');
+  var elementToClone = templateElement.querySelector('map__pin');
 
   return function () {
-    var pinElement = elementToClone.cloneNode(true); // нарисовали новый пин
+    var pinElement = elementToClone.cloneNode(true); // клонирование с подэлементами
 
     pinElement.style.top = rentObject.location.y + 70 + 'px';
     pinElement.style.left = rentObject.location.x - (50 / 2) + 'px';
@@ -88,20 +88,29 @@ window.renderPin = (function () {
     var avatar = pinElement.querySelector('img');
     avatar.setAttribute('src', rentObject.author.avatar);
     avatar.setAttribute('alt', rentObject.offer.title);
-
     return pinElement;
     }
-  };)
 
-var mapPins = document.querySelector('map__pins');
-mapPins.appendChild(pinElement);
+    var mapPins = document.querySelector('map__pins');
+    var fragment = document.createDocumentFragment();
 
-// надо ли генерировать 8 пинов циклом?
+    for(i = 0; i < MAX_RENT_OBJECTS; i++){
+      fragment.appendChild(pinElement);
+    }
 
-window.showCard = (function () {})
+    mapPins.appendChild(fragment);
+
+  })
+
+
+
+
+
+/*window.showCard = (function () {})*/
 
 
 // создать DOM темплейта и вставить его перед .map__filters-container
+// parentElem.insertBefore(elem, nextSibling)
 //  заполнить данными
 
 // отрисовать offer.title в .popup__title и тд
