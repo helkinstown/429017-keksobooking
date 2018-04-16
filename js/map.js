@@ -69,29 +69,30 @@ for(i=0; i<8; i++){
      roomsForRent.push(rentObject);
 }
 
-/*var mapFaded = document.getElementsByTagName("section"); // находим блок
-mapFaded.classList.remove(".map--faded"); // удаляем у него класс*/
+/*var mapSection = document.getElementsByTagName("section"); // находим блок
+var mapFaded = document.getElementsByClassName(".map--faded"); // находим блок
+mapSection.classList.remove(".map--faded");*/ // удаляем у него класс
 
 // как проверить что работает? только после обработчика событий?
 
-
+/*
 window.renderPin = (function () {
-  var templateElement = document.querySelector('map__pin');
-  var elementToClone = templateElement.querySelector('map__pin');
+  var templateElement = document.querySelector(".map__pin");
+  var elementToClone = templateElement.querySelector(".map__pin");
 
   return function () {
     var pinElement = elementToClone.cloneNode(true); // клонирование с подэлементами
 
-    pinElement.style.top = rentObject.location.y + 70 + 'px';
-    pinElement.style.left = rentObject.location.x - (50 / 2) + 'px';
+    pinElement.style.top = rentObject.location.y + 70 + "px";
+    pinElement.style.left = rentObject.location.x - (50 / 2) + "px";
 
-    var avatar = pinElement.querySelector('img');
-    avatar.setAttribute('src', rentObject.author.avatar);
-    avatar.setAttribute('alt', rentObject.offer.title);
+    var avatar = pinElement.querySelector("img");
+    avatar.setAttribute("src", rentObject.author.avatar);
+    avatar.setAttribute("alt", rentObject.offer.title);
     return pinElement;
     }
 
-    var mapPins = document.querySelector('map__pins');
+    var mapPins = document.querySelector(".map__pins");
     var fragment = document.createDocumentFragment();
 
     for(i = 0; i < MAX_RENT_OBJECTS; i++){
@@ -100,17 +101,55 @@ window.renderPin = (function () {
 
     mapPins.appendChild(fragment);
 
-  })
+  })();
+
+*/
+
+window.showCard = (function () {
+
+  var templateCard = document.querySelector(".map__card");
+  var cardToClone = templateCard.querySelector(".map__card");
+
+     return function () {
+       var cardElement = cardToClone.cloneNode(true); // клонирование с подэлементами
+
+        var offerTitle = rentObject.querySelector(".popup__title");
+        offerTitle.innerText = rentObject.offer.title;
+
+        var offerAdress = rentObject.querySelector(".popup__text--address");
+        offerAdress.innerText = rentObject.offer.adress;
+
+        var offerPrice = rentObject.querySelector(".popup__text--price");
+        offerPrice.innerText = rentObject.offer.price + " ₽/ночь";
+
+        var offerType = rentObject.querySelector(".popup__type");
+        offerType.innerText = rentObject.offer.type; //Квартира для flat, Бунгало для bungalo, Дом для house, Дворец для palace.
+
+        // ??? Выведите количество гостей и комнат offer.rooms и offer.guests в блок .popup__text--capacity строкой вида {{offer.rooms}} комнаты для {{offer.guests}} гостей. Например, 2 комнаты для 3 гостей.
+        // ??? Время заезда и выезда offer.checkin и offer.checkout в блок .popup__text--time строкой вида Заезд после {{offer.checkin}}, выезд до {{offer.checkout}}. Например, заезд после 14:00, выезд до 12:00.
+
+        var offerFeatures = rentObject.querySelector(".popup__features");
+        offerFeatures.innerText = rentObject.offer.features[];
+
+        var offerDescription = rentObject.querySelector(".popup__description");
+        offerDescription.innerText = rentObject.offer.description;
+
+
+        var offerPhotos = rentObject.querySelector(".popup__photos");
+        offerPhotos.innerText = rentObject.offer.photos;
+        // Каждая из строк массива photos должна записываться как src соответствующего изображения.
+
+        // Замените src у аватарки пользователя — изображения, которое записано в .popup__avatar — на значения поля author.avatar отрисовываемого объекта.
+
+     }
+
+})
 
 
 
 
 
-/*window.showCard = (function () {})*/
 
-
-// создать DOM темплейта и вставить его перед .map__filters-container
+// создать DOM темплейта и вставить его в .map перед .map__filters-container фрагментом
 // parentElem.insertBefore(elem, nextSibling)
-//  заполнить данными
 
-// отрисовать offer.title в .popup__title и тд
