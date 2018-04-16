@@ -37,14 +37,14 @@ function getRandomNumber(min, max) {
   }
 
 function getRandomElement(arr) {
-    var x = Math.floor(Math.random() * arr.length);
-    return arr[x];
+    var y = Math.floor(Math.random() * arr.length);
+    return arr[y];
   }
 
 for(i=0; i<8; i++){
     var rentObject = {};
 
-    rentObject.author = {"avatar": getRandomNumber(1, 8)};
+    rentObject.author = {"avatar": "img/avatars/user0" + getRandomNumber(1, 8)};
 
     rentObject.offer = {"title": getRandomElement(HOUSE_TITLE),
                         "address": {"x": getRandomNumber(300, 900),
@@ -69,41 +69,40 @@ for(i=0; i<8; i++){
      roomsForRent.push(rentObject);
 }
 
-/*var mapSection = document.getElementsByTagName("section"); // находим блок
-var mapFaded = document.getElementsByClassName(".map--faded"); // находим блок
-mapSection.classList.remove(".map--faded");*/ // удаляем у него класс
-
-// как проверить что работает? только после обработчика событий?
+/*
+var mapSection = document.querySelector(".map--faded"); // находим блок
+mapSection.classList.remove(".map--faded"); // удаляем у него класс
+*/
 
 /*
 window.renderPin = (function () {
   var templateElement = document.querySelector(".map__pin");
   var elementToClone = templateElement.querySelector(".map__pin");
 
-  return function () {
+  return function () { // возвращает функцию, которая возвращает последовательность действий  ?
     var pinElement = elementToClone.cloneNode(true); // клонирование с подэлементами
+
+// здесь не хватает манипуляции с родительским узлом
 
     pinElement.style.top = rentObject.location.y + 70 + "px";
     pinElement.style.left = rentObject.location.x - (50 / 2) + "px";
 
     var avatar = pinElement.querySelector("img");
     avatar.setAttribute("src", rentObject.author.avatar);
-    avatar.setAttribute("alt", rentObject.offer.title);
-    return pinElement;
+    avatar.setAttribute("alt", rentObject.offer.title); // что возвращает эта функция?
     }
 
     var mapPins = document.querySelector(".map__pins");
     var fragment = document.createDocumentFragment();
 
-    for(i = 0; i < MAX_RENT_OBJECTS; i++){
+    for(i = 0; i < MAX_RENT_OBJECTS; i++){ // нагенерили пинов во фрагмент
       fragment.appendChild(pinElement);
+       mapPins.appendChild(fragment);
     }
 
-    mapPins.appendChild(fragment);
-
   })();
-
 */
+
 
 window.showCard = (function () {
 
@@ -113,37 +112,50 @@ window.showCard = (function () {
      return function () {
        var cardElement = cardToClone.cloneNode(true); // клонирование с подэлементами
 
-        var offerTitle = rentObject.querySelector(".popup__title");
+
+        var offerTitle = document.querySelector(".popup__title"); //?? как записать свойство именно в темплейт карточки. сейчас пишется непонятно куда
         offerTitle.innerText = rentObject.offer.title;
 
-        var offerAdress = rentObject.querySelector(".popup__text--address");
+        var offerAdress = document.querySelector(".popup__text--address");
         offerAdress.innerText = rentObject.offer.adress;
 
-        var offerPrice = rentObject.querySelector(".popup__text--price");
+        var offerPrice = document.querySelector(".popup__text--price");
         offerPrice.innerText = rentObject.offer.price + " ₽/ночь";
 
-        var offerType = rentObject.querySelector(".popup__type");
-        offerType.innerText = rentObject.offer.type; //Квартира для flat, Бунгало для bungalo, Дом для house, Дворец для palace.
+        var offerType = document.querySelector(".popup__type");
+        offerType.innerText = rentObject.offer.type;                //['Квартира', 'Бунгало', 'Дом', 'Дворец']; // создать элемент select + option?
 
         // ??? Выведите количество гостей и комнат offer.rooms и offer.guests в блок .popup__text--capacity строкой вида {{offer.rooms}} комнаты для {{offer.guests}} гостей. Например, 2 комнаты для 3 гостей.
         // ??? Время заезда и выезда offer.checkin и offer.checkout в блок .popup__text--time строкой вида Заезд после {{offer.checkin}}, выезд до {{offer.checkout}}. Например, заезд после 14:00, выезд до 12:00.
 
-        var offerFeatures = rentObject.querySelector(".popup__features");
-        offerFeatures.innerText = rentObject.offer.features[];
+        var offerFeatures = document.querySelector(".popup__features");
+        offerFeatures.innerText = rentObject.offer.features;
 
-        var offerDescription = rentObject.querySelector(".popup__description");
+        var offerDescription = document.querySelector(".popup__description");
         offerDescription.innerText = rentObject.offer.description;
 
 
-        var offerPhotos = rentObject.querySelector(".popup__photos");
-        offerPhotos.innerText = rentObject.offer.photos;
+        var offerPhotos = document.querySelector(".popup__photos");
+        offerPhotos.innerText = 'src = ' + rentObject.offer.photos;                // ??? или нужен setAttribute
         // Каждая из строк массива photos должна записываться как src соответствующего изображения.
 
+        var authorAvatar = document.querySelector(".popup__avatar");
+        authorAvatar.src = author.avatar;
         // Замените src у аватарки пользователя — изображения, которое записано в .popup__avatar — на значения поля author.avatar отрисовываемого объекта.
-
      }
 
-})
+      var mapBlock = document.querySelector(".map"); // как записать элемент первым в списке?
+      var fragment = document.createDocumentFragment();
+
+     for(i = 0; i < MAX_RENT_OBJECTS; i++){
+          fragment.appendChild(cardElement);
+           mapBlock.appendChild(fragment);
+        }
+
+        mapBlock.insertBefore(cardElement, mapBlock.firstChild); // вставили в родительский блок
+
+
+})();
 
 
 
