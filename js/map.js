@@ -69,18 +69,18 @@ for(i=0; i<8; i++){
      roomsForRent.push(rentObject);
 }
 
-/*
-var mapSection = document.querySelector(".map--faded"); // находим блок
-mapSection.classList.remove(".map--faded"); // удаляем у него класс
-*/
 
-/*
+var mapSection = document.querySelector(".map--faded"); /
+mapSection.classList.remove(".map--faded");
+
+
+
 window.renderPin = (function () {
   var templateElement = document.querySelector(".map__pin");
   var elementToClone = templateElement.querySelector(".map__pin");
 
-  return function () { // возвращает функцию, которая возвращает последовательность действий  ?
-    var pinElement = elementToClone.cloneNode(true); // клонирование с подэлементами
+  return function () {                                                // возвращает функцию, которая возвращает последовательность действий  ?
+    var pinElement = elementToClone.cloneNode(true);
 
 // здесь не хватает манипуляции с родительским узлом
 
@@ -89,19 +89,19 @@ window.renderPin = (function () {
 
     var avatar = pinElement.querySelector("img");
     avatar.setAttribute("src", rentObject.author.avatar);
-    avatar.setAttribute("alt", rentObject.offer.title); // что возвращает эта функция?
+    avatar.setAttribute("alt", rentObject.offer.title);               // что возвращает эта функция?
     }
 
     var mapPins = document.querySelector(".map__pins");
     var fragment = document.createDocumentFragment();
 
-    for(i = 0; i < MAX_RENT_OBJECTS; i++){ // нагенерили пинов во фрагмент
+    for(i = 0; i < MAX_RENT_OBJECTS; i++){                          //нужно ли еще что то вставлять?
       fragment.appendChild(pinElement);
        mapPins.appendChild(fragment);
     }
 
   })();
-*/
+
 
 
 window.showCard = (function () {
@@ -110,10 +110,10 @@ window.showCard = (function () {
   var cardToClone = templateCard.querySelector(".map__card");
 
      return function () {
-       var cardElement = cardToClone.cloneNode(true); // клонирование с подэлементами
+       var cardElement = cardToClone.cloneNode(true);                 // клонирование с подэлементами
 
 
-        var offerTitle = document.querySelector(".popup__title"); //?? как записать свойство именно в темплейт карточки. сейчас пишется непонятно куда
+        var offerTitle = document.querySelector(".popup__title");       //?? как записать свойство именно в темплейт карточки. сейчас пишется непонятно куда
         offerTitle.innerText = rentObject.offer.title;
 
         var offerAdress = document.querySelector(".popup__text--address");
@@ -123,7 +123,7 @@ window.showCard = (function () {
         offerPrice.innerText = rentObject.offer.price + " ₽/ночь";
 
         var offerType = document.querySelector(".popup__type");
-        offerType.innerText = rentObject.offer.type;                //['Квартира', 'Бунгало', 'Дом', 'Дворец']; // создать элемент select + option?
+        offerType.innerText = rentObject.offer.type;                        //['Квартира', 'Бунгало', 'Дом', 'Дворец']; // создать элемент select + option?
 
         // ??? Выведите количество гостей и комнат offer.rooms и offer.guests в блок .popup__text--capacity строкой вида {{offer.rooms}} комнаты для {{offer.guests}} гостей. Например, 2 комнаты для 3 гостей.
         // ??? Время заезда и выезда offer.checkin и offer.checkout в блок .popup__text--time строкой вида Заезд после {{offer.checkin}}, выезд до {{offer.checkout}}. Например, заезд после 14:00, выезд до 12:00.
@@ -137,14 +137,14 @@ window.showCard = (function () {
 
         var offerPhotos = document.querySelector(".popup__photos");
         offerPhotos.innerText = 'src = ' + rentObject.offer.photos;                // ??? или нужен setAttribute
-        // Каждая из строк массива photos должна записываться как src соответствующего изображения.
+                                                                                 // Каждая из строк массива photos должна записываться как src соответствующего изображения.
 
         var authorAvatar = document.querySelector(".popup__avatar");
         authorAvatar.src = author.avatar;
         // Замените src у аватарки пользователя — изображения, которое записано в .popup__avatar — на значения поля author.avatar отрисовываемого объекта.
      }
 
-      var mapBlock = document.querySelector(".map"); // как записать элемент первым в списке?
+      var mapBlock = document.querySelector(".map");
       var fragment = document.createDocumentFragment();
 
      for(i = 0; i < MAX_RENT_OBJECTS; i++){
@@ -152,16 +152,9 @@ window.showCard = (function () {
            mapBlock.appendChild(fragment);
         }
 
-        mapBlock.insertBefore(cardElement, mapBlock.firstChild); // вставили в родительский блок
+        mapBlock.insertBefore(cardElement, mapBlock.firstChild);
 
 
 })();
 
-
-
-
-
-
-// создать DOM темплейта и вставить его в .map перед .map__filters-container фрагментом
-// parentElem.insertBefore(elem, nextSibling)
 
