@@ -1,5 +1,7 @@
 'use strict';
 
+
+
 var MAX_RENT_OBJECTS = 5;
 var HOUSE_TITLE = [
                   "Большая уютная квартира",
@@ -41,68 +43,60 @@ function getRandomElement(arr) {
     return arr[y];
   }
 
-for(i=0; i<8; i++){
+for(var i=0; i<8; i++){
     var rentObject = {};
-
     rentObject.author = {"avatar": "img/avatars/user0" + getRandomNumber(1, 8)};
-
-    rentObject.offer = {"title": getRandomElement(HOUSE_TITLE),
-                        "address": {"x": getRandomNumber(300, 900),
-                                  "y": getRandomNumber(150, 500)
-                                  },
-                        "price": getRandomNumber(1000, 1000000),
-                        "type": getRandomElement (HOUSE_TYPE),
-                        "rooms": getRandomNumber(1, 5),
-                        "guests": getRandomNumber(0, 3),
-                        "checkin": getRandomElement(TIME_CHECKIN),
-                        "checkout": getRandomElement(TIME_CHECKOUT),
-                        "features": getRandomElement(FEATURES),
-                        "description": '',
-                        "photos": getRandomElement(PHOTOS)
+    rentObject.offer = {
+                          "title": getRandomElement(HOUSE_TITLE),
+                          "address": {"x": getRandomNumber(300, 900),
+                                    "y": getRandomNumber(150, 500)
+                                    },
+                          "price": getRandomNumber(1000, 1000000),
+                          "type": getRandomElement (HOUSE_TYPE),
+                          "rooms": getRandomNumber(1, 5),
+                          "guests": getRandomNumber(0, 3),
+                          "checkin": getRandomElement(TIME_CHECKIN),
+                          "checkout": getRandomElement(TIME_CHECKOUT),
+                          "features": getRandomElement(FEATURES),
+                          "description": '',
+                          "photos": getRandomElement(PHOTOS)
                         };
-
     rentObject.location = {
-                        "x": getRandomNumber(300, 900),
-                        "y": getRandomNumber(150, 500)
-                      };
-
+                            "x": getRandomNumber(300, 900),
+                            "y": getRandomNumber(150, 500)
+                          };
      roomsForRent.push(rentObject);
 }
 
-
-var mapSection = document.querySelector(".map--faded"); /
+var mapSection = document.querySelector(".map--faded");
 mapSection.classList.remove(".map--faded");
-
-
 
 window.renderPin = (function () {
   var templateElement = document.querySelector(".map__pin");
-  var elementToClone = templateElement.querySelector(".map__pin");
+  var templateClone = templateElement.querySelector(".map__pin"); // лишнее?
+  var pinElement = templateClone.cloneNode(true);
 
-  return function () {                                                // возвращает функцию, которая возвращает последовательность действий  ?
-    var pinElement = elementToClone.cloneNode(true);
+      pinElement.querySelector(".map__pin").style.top = rentObject.location.y + 70 + "px";
+      pinElement.querySelector(".map__pin")style.left = rentObject.location.x - (50 / 2) + "px";
+      pinElement.querySelector("img").src = rentObject.author.avatar;
+      pinElement.querySelector("img").alt = rentObject.author.title;
 
-// здесь не хватает манипуляции с родительским узлом
+  var mapPins = document.querySelector(".map__pins");
+  var fragment = document.createDocumentFragment();
 
-    pinElement.style.top = rentObject.location.y + 70 + "px";
-    pinElement.style.left = rentObject.location.x - (50 / 2) + "px";
-
-    var avatar = pinElement.querySelector("img");
-    avatar.setAttribute("src", rentObject.author.avatar);
-    avatar.setAttribute("alt", rentObject.offer.title);               // что возвращает эта функция?
-    }
-
-    var mapPins = document.querySelector(".map__pins");
-    var fragment = document.createDocumentFragment();
-
-    for(i = 0; i < MAX_RENT_OBJECTS; i++){                          //нужно ли еще что то вставлять?
+  for(var i = 0; i < MAX_RENT_OBJECTS; i++){
       fragment.appendChild(pinElement);
        mapPins.appendChild(fragment);
-    }
+  }
 
-  })();
+  })(); //?? это синтаксис объекта window?
 
-
+  typeText = {
+  'flat': 'Квартира',
+  'house': 'Дом',
+  'palace': 'Дворец',
+  'bungalo': 'Бунгало'
+}
 
 window.showCard = (function () {
 
@@ -110,51 +104,22 @@ window.showCard = (function () {
   var cardToClone = templateCard.querySelector(".map__card");
 
      return function () {
-       var cardElement = cardToClone.cloneNode(true);                 // клонирование с подэлементами
+        var cardElement = cardToClone.cloneNode(true);
 
+        cardElement.querySelector(".popup__avatar").src = rentObject.author.avatar;
 
-        var offerTitle = document.querySelector(".popup__title");       //?? как записать свойство именно в темплейт карточки. сейчас пишется непонятно куда
-        offerTitle.innerText = rentObject.offer.title;
-
-        var offerAdress = document.querySelector(".popup__text--address");
-        offerAdress.innerText = rentObject.offer.adress;
-
-        var offerPrice = document.querySelector(".popup__text--price");
-        offerPrice.innerText = rentObject.offer.price + " ₽/ночь";
-
-        var offerType = document.querySelector(".popup__type");
-        offerType.innerText = rentObject.offer.type;                        //['Квартира', 'Бунгало', 'Дом', 'Дворец']; // создать элемент select + option?
-
-        // ??? Выведите количество гостей и комнат offer.rooms и offer.guests в блок .popup__text--capacity строкой вида {{offer.rooms}} комнаты для {{offer.guests}} гостей. Например, 2 комнаты для 3 гостей.
-        // ??? Время заезда и выезда offer.checkin и offer.checkout в блок .popup__text--time строкой вида Заезд после {{offer.checkin}}, выезд до {{offer.checkout}}. Например, заезд после 14:00, выезд до 12:00.
-
-        var offerFeatures = document.querySelector(".popup__features");
-        offerFeatures.innerText = rentObject.offer.features;
-
-        var offerDescription = document.querySelector(".popup__description");
-        offerDescription.innerText = rentObject.offer.description;
-
-
-        var offerPhotos = document.querySelector(".popup__photos");
-        offerPhotos.innerText = 'src = ' + rentObject.offer.photos;                // ??? или нужен setAttribute
-                                                                                 // Каждая из строк массива photos должна записываться как src соответствующего изображения.
-
-        var authorAvatar = document.querySelector(".popup__avatar");
-        authorAvatar.src = author.avatar;
-        // Замените src у аватарки пользователя — изображения, которое записано в .popup__avatar — на значения поля author.avatar отрисовываемого объекта.
+        cardElement.querySelector(".popup__title") = rentObject.offer.title;
+        cardElement.querySelector(".popup__text--address") = rentObject.offer.adress;
+        cardElement.querySelector(".popup__text--price") = rentObject.offer.price + " ₽/ночь";
+        cardElement.querySelector(".popup__type") = rentObject.offer.type --> typeText.; // ?? надо передать данные свойства type в объект typeText. как 'Квартира' узнает, что она соответствует 'flat'
+        cardElement.querySelector(".popup__text--capacity") = rentObject.offer.rooms + ' комнаты' + ' для' + rentObject.offer.guests + ' гостей';
+        cardElement.querySelector(".popup__text--time") = 'Заезд после ' + rentObject.offer.checkin + ', ' + 'выезд после ' + rentObject.offer.checkout;
+        cardElement.querySelector(".popup__features") = rentObject.offer.features;
+        cardElement.querySelector(".popup__description") = rentObject.offer.description;
+        cardElement.querySelector(".popup__photos").src = rentObject.offer.photos;
      }
 
       var mapBlock = document.querySelector(".map");
-      var fragment = document.createDocumentFragment();
-
-     for(i = 0; i < MAX_RENT_OBJECTS; i++){
-          fragment.appendChild(cardElement);
-           mapBlock.appendChild(fragment);
-        }
-
-        mapBlock.insertBefore(cardElement, mapBlock.firstChild);
-
-
+      mapBlock.insertBefore(cardElement, mapBlock.firstChild);
 })();
-
 
