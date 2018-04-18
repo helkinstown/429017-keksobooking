@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 var MAX_RENT_OBJECTS = 5;
 var HOUSE_TITLE = [
                   "Большая уютная квартира",
@@ -30,7 +28,7 @@ var PHOTOS = [
                "http://o0.github.io/assets/images/tokyo/hotel3.jpg"
               ];
 
-typeText = {
+var typeText = {
   'flat': 'Квартира',
   'house': 'Дом',
   'palace': 'Дворец',
@@ -76,16 +74,12 @@ for(var i=0; i<8; i++){
      roomsForRent.push(rentObject);
 }
 
-var mapSection = document.querySelector(".map--faded");
-mapSection.classList.remove(".map--faded");
-
  function renderPin(){
   var templateElement = document.querySelector(".map__pin");
-  var templateClone = templateElement.querySelector(".map__pin"); // лишнее?
-  var pinElement = templateClone.cloneNode(true);
+  var pinElement = templateElement.cloneNode(true);
 
       pinElement.querySelector(".map__pin").style.top = rentObject.location.y + 70 + "px";
-      pinElement.querySelector(".map__pin")style.left = rentObject.location.x - (50 / 2) + "px";
+      pinElement.querySelector(".map__pin").style.left = rentObject.location.x - (50 / 2) + "px";
       pinElement.querySelector("img").src = rentObject.author.avatar;
       pinElement.querySelector("img").alt = rentObject.author.title;
 
@@ -101,12 +95,9 @@ mapSection.classList.remove(".map--faded");
 function showCard(){
   var templateCard = document.querySelector(".map__card");
   var cardToClone = templateCard.querySelector(".map__card");
-
-     return function () {
-        var cardElement = cardToClone.cloneNode(true);
+  var cardElement = cardToClone.cloneNode(true);
 
         cardElement.querySelector(".popup__avatar").src = rentObject.author.avatar;
-
         cardElement.querySelector(".popup__title") = rentObject.offer.title;
         cardElement.querySelector(".popup__text--address") = rentObject.offer.adress;
         cardElement.querySelector(".popup__text--price") = rentObject.offer.price + " ₽/ночь";
@@ -116,9 +107,11 @@ function showCard(){
         cardElement.querySelector(".popup__features") = rentObject.offer.features;
         cardElement.querySelector(".popup__description") = rentObject.offer.description;
         cardElement.querySelector(".popup__photos").src = rentObject.offer.photos;
-     }
 
-      var mapBlock = document.querySelector(".map");
-      mapBlock.insertBefore(cardElement, mapBlock.firstChild);
+  var mapBlock = document.querySelector(".map");
+  mapBlock.insertBefore(cardElement, mapBlock.firstChild);
 }
+
+document.querySelector(".map--faded").classList.remove("map--faded"); // ругается classlist
+
 
