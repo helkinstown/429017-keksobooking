@@ -30,6 +30,14 @@ var PHOTOS = [
                "http://o0.github.io/assets/images/tokyo/hotel3.jpg"
               ];
 
+typeText = {
+  'flat': 'Квартира',
+  'house': 'Дом',
+  'palace': 'Дворец',
+  'bungalo': 'Бунгало'
+}
+
+
 var roomsForRent = [];
 
 function getRandomNumber(min, max) {
@@ -71,7 +79,7 @@ for(var i=0; i<8; i++){
 var mapSection = document.querySelector(".map--faded");
 mapSection.classList.remove(".map--faded");
 
-window.renderPin = (function () {
+ function renderPin(){
   var templateElement = document.querySelector(".map__pin");
   var templateClone = templateElement.querySelector(".map__pin"); // лишнее?
   var pinElement = templateClone.cloneNode(true);
@@ -88,18 +96,9 @@ window.renderPin = (function () {
       fragment.appendChild(pinElement);
        mapPins.appendChild(fragment);
   }
-
-  })(); //?? это синтаксис объекта window?
-
-  typeText = {
-  'flat': 'Квартира',
-  'house': 'Дом',
-  'palace': 'Дворец',
-  'bungalo': 'Бунгало'
 }
 
-window.showCard = (function () {
-
+function showCard(){
   var templateCard = document.querySelector(".map__card");
   var cardToClone = templateCard.querySelector(".map__card");
 
@@ -111,7 +110,7 @@ window.showCard = (function () {
         cardElement.querySelector(".popup__title") = rentObject.offer.title;
         cardElement.querySelector(".popup__text--address") = rentObject.offer.adress;
         cardElement.querySelector(".popup__text--price") = rentObject.offer.price + " ₽/ночь";
-        cardElement.querySelector(".popup__type") = rentObject.offer.type --> typeText.; // ?? надо передать данные свойства type в объект typeText. как 'Квартира' узнает, что она соответствует 'flat'
+        cardElement.querySelector(".popup__type") = typeText[rentObject.offer.type]; // словарь
         cardElement.querySelector(".popup__text--capacity") = rentObject.offer.rooms + ' комнаты' + ' для' + rentObject.offer.guests + ' гостей';
         cardElement.querySelector(".popup__text--time") = 'Заезд после ' + rentObject.offer.checkin + ', ' + 'выезд после ' + rentObject.offer.checkout;
         cardElement.querySelector(".popup__features") = rentObject.offer.features;
@@ -121,5 +120,5 @@ window.showCard = (function () {
 
       var mapBlock = document.querySelector(".map");
       mapBlock.insertBefore(cardElement, mapBlock.firstChild);
-})();
+}
 
