@@ -1,6 +1,9 @@
 'use strict';
 
-var MAX_RENT_OBJECTS = 5;
+document.querySelector(".map--faded").classList.remove("map--faded");
+
+// константы, содержащие массивы данных для фейковой генерации свойств карточки объявления
+var MAX_RENT_OBJECTS = 8;
 var HOUSE_TITLE = [
                   "Большая уютная квартира",
                   "Маленькая неуютная квартира",
@@ -28,6 +31,7 @@ var PHOTOS = [
                "http://o0.github.io/assets/images/tokyo/hotel3.jpg"
               ];
 
+// объект-словарь. когда подгрузится значение flat, объект переведет его на человеческий "Квартира"
 var typeText = {
   'flat': 'Квартира',
   'house': 'Дом',
@@ -35,8 +39,11 @@ var typeText = {
   'bungalo': 'Бунгало'
 }
 
+// массив карточек-объявлений
 
 var roomsForRent = [];
+
+// функции поиска случайного числа, min-max и в массиве
 
 function getRandomNumber(min, max) {
     var x = min + Math.random() * (max + 1 - min);
@@ -49,9 +56,12 @@ function getRandomElement(arr) {
     return arr[y];
   }
 
-for(var i=0; i<8; i++){
+// цикл, который сгенерирует свойства объекта rentObject и создаст 8 похожих объектов в конец массива roomsForRent
+
+for(var i=0; i<MAX_RENT_OBJECTS; i++){
     var rentObject = {};
-    rentObject.author = {"avatar": "img/avatars/user0" + getRandomNumber(1, 8)};
+
+    rentObject.author = {"avatar": "img/avatars/user0" + getRandomNumber(1, 8) + '.png'},
     rentObject.offer = {
                           "title": getRandomElement(HOUSE_TITLE),
                           "address": {"x": getRandomNumber(300, 900),
@@ -66,52 +76,60 @@ for(var i=0; i<8; i++){
                           "features": getRandomElement(FEATURES),
                           "description": '',
                           "photos": getRandomElement(PHOTOS)
-                        };
+                        },
     rentObject.location = {
                             "x": getRandomNumber(300, 900),
                             "y": getRandomNumber(150, 500)
-                          };
+                          }
      roomsForRent.push(rentObject);
 }
 
- function renderPin(){
-  var templateElement = document.querySelector(".map__pin");
-  var pinElement = templateElement.cloneNode(true);
+// Функция, которая создаст клон разметки пина, передаст в него свойства rentObject и вернет как pinElement.
+// Затем создаст фрагмент. Во фрагменте цикл 8 раз запустит renderPin, чтобы заполнить объектами массив roomsForRent.
+// Затем добавит содержимое фрагмента на страницу. Получаем отрисованные пины.
 
-      pinElement.querySelector(".map__pin").style.top = rentObject.location.y + 70 + "px";
-      pinElement.querySelector(".map__pin").style.left = rentObject.location.x - (50 / 2) + "px";
+ function renderPin(rentObject){
+  var pinElement = document.querySelector(".map__pin").cloneNode(true);
+
+      pinElement.style.top = rentObject.location.y + 70 + "px";
+      pinElement.style.left = rentObject.location.x - (50 / 2) + "px";
       pinElement.querySelector("img").src = rentObject.author.avatar;
       pinElement.querySelector("img").alt = rentObject.author.title;
 
-  var mapPins = document.querySelector(".map__pins");
-  var fragment = document.createDocumentFragment();
+      return pinElement;
+    }
 
-  for(var i = 0; i < MAX_RENT_OBJECTS; i++){
-      fragment.appendChild(pinElement);
-       mapPins.appendChild(fragment);
-  }
-}
+      var mapPins = document.querySelector(".map__pins");
+      var fragment = document.createDocumentFragment();
+
+      for(var i = 0; i < roomsForRent.length; i++){
+          fragment.appendChild(renderPin(roomsForRent[i]));
+      }
+
+      mapPins.appendChild(fragment);
+
+// Функция, которая аналогично создает клон темплейта карточки. Внимание, ищет селектор в темлейте, и добавляет ему контент.
+// Нельзя добавить контент просто в узел.
+// Затем нужный блок и вставляет склонированный элемент карточки первым в списке. Затем вызывает функцию.
+// Получаем отрисованную карточку.
 
 function showCard(){
-  var templateCard = document.querySelector(".map__card");
-  var cardToClone = templateCard.querySelector(".map__card");
-  var cardElement = cardToClone.cloneNode(true);
+  var cardElement = document.querySelector("template").content.querySelector(".map__card").cloneNode(true);
 
         cardElement.querySelector(".popup__avatar").src = rentObject.author.avatar;
-        cardElement.querySelector(".popup__title") = rentObject.offer.title;
-        cardElement.querySelector(".popup__text--address") = rentObject.offer.adress;
-        cardElement.querySelector(".popup__text--price") = rentObject.offer.price + " ₽/ночь";
-        cardElement.querySelector(".popup__type") = typeText[rentObject.offer.type]; // словарь
-        cardElement.querySelector(".popup__text--capacity") = rentObject.offer.rooms + ' комнаты' + ' для' + rentObject.offer.guests + ' гостей';
-        cardElement.querySelector(".popup__text--time") = 'Заезд после ' + rentObject.offer.checkin + ', ' + 'выезд после ' + rentObject.offer.checkout;
-        cardElement.querySelector(".popup__features") = rentObject.offer.features;
-        cardElement.querySelector(".popup__description") = rentObject.offer.description;
+        cardElement.querySelector(".popup__title").textContent = rentObject.offer.title;
+        cardElement.querySelector(".popup__text--address").textContent = rentObject.offer.adress;
+        cardElement.querySelector(".popup__text--price").textContent = rentObject.offer.price + " ₽/ночь";
+        cardElement.querySelector(".popup__type").textContent = typeText[rentObject.offer.type]; // словарь
+        cardElement.querySelector(".popup__text--capacity").textContent = rentObject.offer.rooms + ' комнаты' + ' для' + rentObject.offer.guests + ' гостей';
+        cardElement.querySelector(".popup__text--time").textContent = 'Заезд после ' + rentObject.offer.checkin + ', ' + 'выезд после ' + rentObject.offer.checkout;
+        cardElement.querySelector(".popup__features").textContent = rentObject.offer.features;
+        cardElement.querySelector(".popup__description").textContent = rentObject.offer.description;
         cardElement.querySelector(".popup__photos").src = rentObject.offer.photos;
 
   var mapBlock = document.querySelector(".map");
   mapBlock.insertBefore(cardElement, mapBlock.firstChild);
 }
 
-document.querySelector(".map--faded").classList.remove("map--faded"); // ругается classlist
-
+showCard();
 
