@@ -13,7 +13,7 @@ var HOUSE_TITLE = [
   'Некрасивый негостеприимный домик',
   'Уютное бунгало далеко от моря',
   'Неуютное бунгало по колено в воде'
-  ];
+];
 var HOUSE_TYPE = ['palace', 'flat', 'house', 'bungalo'];
 var TIME_CHECKIN = ['12:00', '13:00', '14:00'];
 var TIME_CHECKOUT = ['12:00', '13:00', '14:00'];
@@ -24,12 +24,12 @@ var FEATURES = [
   'washer',
   'elevator',
   'conditioner'
-  ];
+];
 var PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
-  ];
+];
 
 // объект-словарь. когда подгрузится значение flat, объект переведет его на человеческий 'Квартира'
 var typeText = {
@@ -37,7 +37,7 @@ var typeText = {
   'house': 'Дом',
   'palace': 'Дворец',
   'bungalo': 'Бунгало'
-}
+};
 
 // массив карточек-объявлений
 
@@ -61,26 +61,27 @@ function getRandomElement(arr) {
 for (var i = 0; i < MAX_RENT_OBJECTS; i++) {
   var rentObject = {};
 
-  rentObject.author = {'avatar': 'img/avatars/user0' + getRandomNumber(1, 8) + '.png'}
+  rentObject.author = {'avatar': 'img/avatars/user0' + getRandomNumber(1, 8) + '.png'};
   rentObject.offer = {
-    'title': getRandomElement(HOUSE_TITLE),
-    'address': {'x': getRandomNumber(300, 900),
-    'y': getRandomNumber(150, 500)
-    },
-    'price': getRandomNumber(1000, 1000000),
-    'type': getRandomElement (HOUSE_TYPE),
-    'rooms': getRandomNumber(1, 5),
-    'guests': getRandomNumber(0, 3),
-    'checkin': getRandomElement(TIME_CHECKIN),
-    'checkout': getRandomElement(TIME_CHECKOUT),
-    'features': getRandomElement(FEATURES),
-    'description': '',
-    'photos': getRandomElement(PHOTOS)
-    }
+  'title': getRandomElement(HOUSE_TITLE),
+  'address': {
+      'x': getRandomNumber(300, 900),
+      'y': getRandomNumber(150, 500)
+  },
+  'price': getRandomNumber(1000, 1000000),
+  'type': getRandomElement (HOUSE_TYPE),
+  'rooms': getRandomNumber(1, 5),
+  'guests': getRandomNumber(0, 3),
+  'checkin': getRandomElement(TIME_CHECKIN),
+  'checkout': getRandomElement(TIME_CHECKOUT),
+  'features': getRandomElement(FEATURES),
+  'description': '',
+  'photos': getRandomElement(PHOTOS)
+  };
   rentObject.location = {
     'x': getRandomNumber(300, 900),
     'y': getRandomNumber(150, 500)
-    }
+  };
   roomsForRent.push(rentObject);
 }
 
@@ -99,12 +100,12 @@ function renderPin(rentObject){
   return pinElement;
 }
 
-  var mapPins = document.querySelector('.map__pins');
-  var fragment = document.createDocumentFragment();
+var mapPins = document.querySelector('.map__pins');
+var fragment = document.createDocumentFragment();
 
-  for (i = 0; i < roomsForRent.length; i++) {
-    fragment.appendChild(renderPin(roomsForRent[i]));
-  }
+for (i = 0; i < roomsForRent.length; i++) {
+fragment.appendChild(renderPin(roomsForRent[i]));
+}
 
 mapPins.appendChild(fragment);
 
@@ -113,7 +114,7 @@ mapPins.appendChild(fragment);
 // Затем нужный блок и вставляет склонированный элемент карточки первым в списке. Затем вызывает функцию.
 // Получаем отрисованную карточку.
 
-function showCard(){
+function showCard() {
   var cardElement = document.querySelector('template').content.querySelector('.map__card').cloneNode(true);
 
   cardElement.querySelector('.popup__avatar').src = rentObject.author.avatar;
