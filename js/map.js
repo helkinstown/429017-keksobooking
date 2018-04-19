@@ -69,7 +69,7 @@ for (var i = 0; i < MAX_RENT_OBJECTS; i++) {
       'y': getRandomNumber(150, 500)
     },
     'price': getRandomNumber(1000, 1000000),
-    'type': getRandomElement (HOUSE_TYPE),
+    'type': getRandomElement(HOUSE_TYPE),
     'rooms': getRandomNumber(1, 5),
     'guests': getRandomNumber(0, 3),
     'checkin': getRandomElement(TIME_CHECKIN),
