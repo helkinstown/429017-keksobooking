@@ -63,20 +63,20 @@ for (var i = 0; i < MAX_RENT_OBJECTS; i++) {
 
   rentObject.author = {'avatar': 'img/avatars/user0' + getRandomNumber(1, 8) + '.png'};
   rentObject.offer = {
-  'title': getRandomElement(HOUSE_TITLE),
-  'address': {
+    'title': getRandomElement(HOUSE_TITLE),
+    'address': {
       'x': getRandomNumber(300, 900),
       'y': getRandomNumber(150, 500)
-  },
-  'price': getRandomNumber(1000, 1000000),
-  'type': getRandomElement (HOUSE_TYPE),
-  'rooms': getRandomNumber(1, 5),
-  'guests': getRandomNumber(0, 3),
-  'checkin': getRandomElement(TIME_CHECKIN),
-  'checkout': getRandomElement(TIME_CHECKOUT),
-  'features': getRandomElement(FEATURES),
-  'description': '',
-  'photos': getRandomElement(PHOTOS)
+    },
+    'price': getRandomNumber(1000, 1000000),
+    'type': getRandomElement (HOUSE_TYPE),
+    'rooms': getRandomNumber(1, 5),
+    'guests': getRandomNumber(0, 3),
+    'checkin': getRandomElement(TIME_CHECKIN),
+    'checkout': getRandomElement(TIME_CHECKOUT),
+    'features': getRandomElement(FEATURES),
+    'description': '',
+    'photos': getRandomElement(PHOTOS)
   };
   rentObject.location = {
     'x': getRandomNumber(300, 900),
@@ -89,7 +89,7 @@ for (var i = 0; i < MAX_RENT_OBJECTS; i++) {
 // Затем создаст фрагмент. Во фрагменте цикл 8 раз запустит renderPin, чтобы заполнить объектами массив roomsForRent.
 // Затем добавит содержимое фрагмента на страницу. Получаем отрисованные пины.
 
-function renderPin(rentObject){
+function renderPin(rentObject) {
   var pinElement = document.querySelector('.map__pin').cloneNode(true);
 
   pinElement.style.top = rentObject.location.y + 70 + 'px';
@@ -104,7 +104,7 @@ var mapPins = document.querySelector('.map__pins');
 var fragment = document.createDocumentFragment();
 
 for (i = 0; i < roomsForRent.length; i++) {
-fragment.appendChild(renderPin(roomsForRent[i]));
+  fragment.appendChild(renderPin(roomsForRent[i]));
 }
 
 mapPins.appendChild(fragment);
