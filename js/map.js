@@ -1,7 +1,5 @@
 'use strict';
 
-document.querySelector('.map--faded').classList.remove('map--faded');
-
 // константы, содержащие массивы данных для фейковой генерации свойств карточки объявления
 var MAX_RENT_OBJECTS = 8;
 var HOUSE_TITLE = [
@@ -132,5 +130,26 @@ function showCard() {
   mapBlock.insertBefore(cardElement, mapBlock.firstChild);
 }
 
-showCard();
+ var pinToMove = document.querySelector('.map__pin--main');
+var map = document.querySelector('.map');
+var adForm = document.querySelector('.ad-form');
+var fieldSet = document.querySelector('fieldset');
+
+var pinX = rentObject.location.y + 70 + 'px';
+var pinY = rentObject.location.x - (50 / 2) + 'px';
+
+
+  pinToMove.addEventListener('mouseup', function() {
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  fieldSet.classList.remove('disabled');
+
+  map.querySelector('.adress').placeholder = pinX + ', ' + pinY;
+});
+
+
+pinToMove.addEventListener('click', function() {
+  showCard();
+})
+
 
