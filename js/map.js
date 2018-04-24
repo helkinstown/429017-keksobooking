@@ -138,18 +138,13 @@ var fieldSet = document.querySelector('fieldset');
 var pinX = rentObject.location.y + 70 + 'px';
 var pinY = rentObject.location.x - (50 / 2) + 'px';
 
-
-  pinToMove.addEventListener('mouseup', function() {
+pinToMove.addEventListener('mouseup', function() {
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
   fieldSet.classList.remove('disabled');
-
-  map.querySelector('.adress').placeholder = pinX + ', ' + pinY;
+  adForm.querySelector('.adress').innerHTML = pinX + ', ' + pinY; 
 });
-
-
-pinToMove.addEventListener('click', function() {
-  showCard();
-})
+  
+pinToMove.addEventListener('click', showCard); 
 
 
