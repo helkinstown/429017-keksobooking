@@ -94,7 +94,7 @@ function renderPin(rentObject) {
   pinElement.style.left = rentObject.location.x - (50 / 2) + 'px';
   pinElement.querySelector('img').src = rentObject.author.avatar;
   pinElement.querySelector('img').alt = rentObject.author.title;
-
+ pinElement.querySelector('img').value = rentObject.author.title;
   return pinElement;
 }
 
@@ -135,16 +135,16 @@ var map = document.querySelector('.map');
 var adForm = document.querySelector('.ad-form');
 var fieldSet = document.querySelector('fieldset');
 
-var pinX = rentObject.location.y + 70 + 'px';
-var pinY = rentObject.location.x - (50 / 2) + 'px';
 
 pinToMove.addEventListener('mouseup', function() {
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
   fieldSet.classList.remove('disabled');
-  adForm.querySelector('.adress').innerHTML = pinX + ', ' + pinY; 
+  document.getElementById('adress').value = rentObject.offer.adress;  // консоль ругается, как будто я пытаюсь записать value в button pin
 });
   
-pinToMove.addEventListener('click', showCard); 
+// создать индекс пина и ниже передать его в функции, которая отрисовывает карточку
+
+pinToMove.addEventListener('click', showCard); // работает. нужно передать параметр пина
 
 
