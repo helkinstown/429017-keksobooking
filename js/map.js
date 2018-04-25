@@ -134,23 +134,26 @@ var map = document.querySelector('.map');
 var adForm = document.querySelector('.ad-form');
 var fieldSet = document.querySelector('.ad-form__element');
 var inputAdress = document.getElementById('address');
-console.log(inputAdress);
+
 
 pinToMove.addEventListener('mouseup', function() {
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
   fieldSet.classList.remove('disabled');
-  inputAdress.value = rentObject.offer.location;
+  inputAdress.value = rentObject.location.x + ', ' + rentObject.location.y;
 });
 
   
-function pinIndex() {
-  for(i = 0; i < roomsForRent.length; i++) {
-  pinElement[i];
-  return showCard(pinElement[i]);
+function pinClickHandler() {
+    var pinArray = [];
+
+    for(var i = 0; i < roomsForRent.length; i++) {
+    var pinNumber;
+    pinToMove = pinNumber[i];                 // назначает каждому пину индекс
+  }
+  return showCard(pinNumber[i]);             // возвращает функцию отрисовки карточки и передает в него пин с индексом
 }
 
-//pinElement[i] + roomsForRent[i]) ??? как связать пин и объект
+pinToMove.addEventListener('click', pinClickHandler); // передает функцию в обработчик события
 
-pinToMove.addEventListener('click', pinIndex); // нужно передать параметр пина в функции открытия карточки
-
+console.log(pinClickHandler());
