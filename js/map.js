@@ -1,7 +1,7 @@
 'use strict';
 
 // константы, содержащие массивы данных для фейковой генерации свойств карточки объявления
-var MAX_RENT_OBJECTS = 8;
+var MAX_RENT_OBJECTS = 5;
 var HOUSE_TITLE = [
   'Большая уютная квартира',
   'Маленькая неуютная квартира',
@@ -94,7 +94,6 @@ function renderPin(rentObject) {
   pinElement.style.left = rentObject.location.x - (50 / 2) + 'px';
   pinElement.querySelector('img').src = rentObject.author.avatar;
   pinElement.querySelector('img').alt = rentObject.author.title;
- pinElement.querySelector('img').value = rentObject.author.title;
   return pinElement;
 }
 
@@ -130,21 +129,27 @@ function showCard() {
   mapBlock.insertBefore(cardElement, mapBlock.firstChild);
 }
 
- var pinToMove = document.querySelector('.map__pin--main');
+ var pinToMove = document.querySelector('.map__pin');
 var map = document.querySelector('.map');
 var adForm = document.querySelector('.ad-form');
-var fieldSet = document.querySelector('fieldset');
-
+var fieldSet = document.querySelector('.ad-form__element');
+var inputAdress = document.getElementById('adress');
 
 pinToMove.addEventListener('mouseup', function() {
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
   fieldSet.classList.remove('disabled');
-  document.getElementById('adress').value = rentObject.offer.adress;  // консоль ругается, как будто я пытаюсь записать value в button pin
+  inputAdress.value = rentObject.offer.adress;  // консоль ругается, как будто я пытаюсь записать value в button pin
 });
   
-// создать индекс пина и ниже передать его в функции, которая отрисовывает карточку
+function pinIndex(pinElement) {
+  var pinArray = [];
 
-pinToMove.addEventListener('click', showCard); // работает. нужно передать параметр пина
+  for(i = 0; i < roomsForRent.length; i++) {
+  return pinElement[i];
+}
 
+//pinElement[i] + roomsForRent[i]) ??? как связать пин и объект
+
+pinToMove.addEventListener('click', showCard(pinElement[i]); // нужно передать параметр пина в функции открытия карточки
 
