@@ -133,23 +133,24 @@ function showCard() {
 var map = document.querySelector('.map');
 var adForm = document.querySelector('.ad-form');
 var fieldSet = document.querySelector('.ad-form__element');
-var inputAdress = document.getElementById('adress');
+var inputAdress = document.getElementById('address');
+console.log(inputAdress);
 
 pinToMove.addEventListener('mouseup', function() {
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
   fieldSet.classList.remove('disabled');
-  inputAdress.value = rentObject.offer.adress;  // консоль ругается, как будто я пытаюсь записать value в button pin
+  inputAdress.value = rentObject.offer.location;
 });
-  
-function pinIndex(pinElement) {
-  var pinArray = [];
 
+  
+function pinIndex() {
   for(i = 0; i < roomsForRent.length; i++) {
-  return pinElement[i];
+  pinElement[i];
+  return showCard(pinElement[i]);
 }
 
 //pinElement[i] + roomsForRent[i]) ??? как связать пин и объект
 
-pinToMove.addEventListener('click', showCard(pinElement[i]); // нужно передать параметр пина в функции открытия карточки
+pinToMove.addEventListener('click', pinIndex); // нужно передать параметр пина в функции открытия карточки
 
